@@ -10,6 +10,15 @@ from utility import encrypt, cap_recognize
 
 username = os.environ["USERNAME"]
 password = os.environ["PASSWORD"]
+BOT_TOKEN = os.environ['BOT_TOKEN']
+CHAT_ID = os.environ['CHAT_ID']
+
+def send2tg(user: str, text: str) -> None:
+    # send to telegram
+    url = f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage?chat_id={CHAT_ID}&text="
+    url_send = url + user + ': ' + text
+    requests.get(url_send)
+
 
 if not (username and password):
     raise Exception("请设置Secret: USERNAME和PASSWORD")
@@ -64,18 +73,21 @@ while try_time < 4:
 
 if not url:
     print('Fail in login, terminating...')
+    send2tg('vaine', '(DAXUEXI) Fail in login, terminating...')
     exit(1)
 
 r2 = bjySession.get('https://m.bjyouth.net/dxx/my-integral?type=2&page=1&limit=15')
 have_learned = json.loads(r2.text)
 if f"学习课程：《{title}》" in list(map(lambda x: x['text'], have_learned['data'])):
     print(f'{title} 在运行前已完成')
+    send2tg('vaine', f'{title} 在运行前已完成')
     exit(0)
 
 pattern = re.compile(r'https://h5.cyol.com/special/daxuexi/(\w+)/m.html\?t=1&z=201')
 result = pattern.search(url)
 if not result:
     print(f'Url pattern not matched: {url}')
+    send2tg('vaine', f'(DAXUEXI) Url pattern not matched: {url}')
     exit(1)
 
 end_img_url = f'https://h5.cyol.com/special/daxuexi/{result.group(1)}/images/end.jpg'
@@ -83,17 +95,17 @@ study_url = f"https://m.bjyouth.net/dxx/check?id={course_id}&org_id={org_id}"
 
 r = bjySession.get(study_url)
 if r.text:
-    print(
-        f'Unexpected response: {r.text}'
-    )
+    print(f'Unexpected response: {r.text}')
+    send2tg('vaine', f'(DAXUEXI) Unexpected response: {r.text}'')
     exit(1)
 
 r = bjySession.get('https://m.bjyouth.net/dxx/my-integral?type=2&page=1&limit=15')
 have_learned = json.loads(r.text)
 if f"学习课程：《{title}》" in list(map(lambda x: x['text'], have_learned['data'])):
     print(f'{title} 成功完成学习')
+    send2tg('vaine', f'{title} 成功完成学习')
     exit(0)
 else:
-    print(f'完成{title}, 但未在检查中确认 {f"学习课程：《{title}》"}' not in {
-        list(map(lambda x: x['text'], have_learned['data']))})
+    print(f'完成{title}, 但未在检查中确认 {f"学习课程：《{title}》"}')
+    send2tg('vaine', f'完成{title}, 但未在检查中确认')
     exit(1)
