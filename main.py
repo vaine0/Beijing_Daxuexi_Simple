@@ -32,6 +32,7 @@ except:
 
 exit_num = 1
 for username, password, name in zip(usernames, passwords, names):
+    print(name, username)
     url = ''
     ua = os.getenv('UA',
                    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.163 Safari/537.36 Edg/80.0.361.111')
