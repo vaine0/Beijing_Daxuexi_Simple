@@ -97,7 +97,7 @@ study_url = f"https://m.bjyouth.net/dxx/check?id={course_id}&org_id={org_id}"
 r = bjySession.get(study_url)
 if r.text:
     print(f'Unexpected response: {r.text}')
-    send2tg('vaine', f'(DAXUEXI) Unexpected response: {r.text}'')
+    send2tg('vaine', f'(DAXUEXI) Unexpected response: {r.text}')
     exit(1)
 
 r = bjySession.get('https://m.bjyouth.net/dxx/my-integral?type=2&page=1&limit=15')
@@ -107,6 +107,6 @@ if f"学习课程：《{title}》" in list(map(lambda x: x['text'], have_learned
     send2tg('vaine', f'{title} 成功完成学习')
     exit(0)
 else:
-    print(f'完成{title}, 但未在检查中确认 {f"学习课程：《{title}》"}')
+    print(f'完成{title}, 但未在检查中确认')
     send2tg('vaine', f'完成{title}, 但未在检查中确认')
     exit(1)
