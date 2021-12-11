@@ -79,6 +79,7 @@ for username, password, name in zip(usernames, passwords, names):
     if not url:
         print('Fail in login, terminating...')
         send2tg(name, '(DAXUEXI) Fail in login, terminating...')
+        continue
 
     r2 = bjySession.get('https://m.bjyouth.net/dxx/my-integral?type=2&page=1&limit=15')
     have_learned = json.loads(r2.text)
@@ -86,12 +87,14 @@ for username, password, name in zip(usernames, passwords, names):
         print(f'{title} 在运行前已完成')
         send2tg(name, f'{title} 在运行前已完成')
         exit_num = 0
+        continue
 
     pattern = re.compile(r'https://h5.cyol.com/special/daxuexi/(\w+)/m.html\?t=1&z=201')
     result = pattern.search(url)
     if not result:
         print(f'Url pattern not matched: {url}')
         send2tg(name, f'(DAXUEXI) Url pattern not matched: {url}')
+        continue
 
     end_img_url = f'https://h5.cyol.com/special/daxuexi/{result.group(1)}/images/end.jpg'
     study_url = f"https://m.bjyouth.net/dxx/check?id={course_id}&org_id={org_id}"
@@ -100,6 +103,7 @@ for username, password, name in zip(usernames, passwords, names):
     if r.text:
         print(f'Unexpected response: {r.text}')
         send2tg(name, f'(DAXUEXI) Unexpected response: {r.text}')
+        continue
 
     r = bjySession.get('https://m.bjyouth.net/dxx/my-integral?type=2&page=1&limit=15')
     have_learned = json.loads(r.text)
@@ -107,8 +111,10 @@ for username, password, name in zip(usernames, passwords, names):
         print(f'{title} 成功完成学习')
         send2tg(name, f'{title} 成功完成学习')
         exit_num = 0
+        continue
     else:
         print(f'完成{title}, 但未在检查中确认')
         send2tg(name, f'完成{title}, 但未在检查中确认')
+        continue
         
-    exit(exit_num)
+exit(exit_num)
