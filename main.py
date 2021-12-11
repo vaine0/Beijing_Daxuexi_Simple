@@ -22,7 +22,7 @@ def send2tg(user: str, text: str) -> None:
     print("sended to tg.")
 
 
-if not (username and password):
+if not (usernames and passwords):
     raise Exception("请设置Secret: USERNAME和PASSWORD")
 
 try:
