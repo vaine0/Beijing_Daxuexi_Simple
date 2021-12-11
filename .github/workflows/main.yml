@@ -57,5 +57,7 @@ jobs:
       env:
         USERNAME: ${{ secrets.USERNAME }}
         PASSWORD: ${{ secrets.PASSWORD }}
+        BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
+        CHAT_ID: ${{ secrets.CHAT_ID }}
       run: |
         python main.py
