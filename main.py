@@ -18,6 +18,7 @@ def send2tg(user: str, text: str) -> None:
     url = f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage?chat_id={CHAT_ID}&text="
     url_send = url + user + ': ' + text
     requests.get(url_send)
+    print("sended to tg.")
 
 
 if not (username and password):
