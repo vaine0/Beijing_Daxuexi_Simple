@@ -85,7 +85,7 @@ for username, password, name in zip(usernames, passwords, names):
     have_learned = json.loads(r2.text)
     if f"学习课程：《{title}》" in list(map(lambda x: x['text'], have_learned['data'])):
         print(f'{title} 在运行前已完成')
-        send2tg(name, f'{title} 在运行前已完成')
+        # send2tg(name, f'{title} 在运行前已完成')
         exit_num = 0
         continue
 
