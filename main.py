@@ -44,7 +44,7 @@ for username, password, name in zip(usernames, passwords, names):
             bjySession.headers.update({"User-Agent": ua, })
             touch = bjySession.get(url="https://m.bjyouth.net/site/login")
             cap_url = "https://m.bjyouth.net" + re.findall(
-                r'src="/site/captcha.+" alt=', touch.text)[0][5:-6]
+                r'src="/site/captcha.+" alt=', touch.text)[0]
             cap_text = cap_recognize(bjySession.get(url=cap_url).content)
             print(f'验证码识别: {cap_text}')
             _csrf_mobile = bjySession.cookies.get_dict()['_csrf_mobile']
